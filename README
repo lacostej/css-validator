@@ -1,8 +1,10 @@
-W3c CSS validator taken from http://jigsaw.w3.org/css-validator/ as of 2011-02-08
+W3c CSS validator taken from http://jigsaw.w3.org/css-validator/ as of 2011-02-08 with a few patches aiming to allow reusing the code from a third party library.
 
-* mavenised project
+DONE:
 * imported into git
+* Get project to build properly into ant (fixed URLs for relocated dependencies)
+* Mavenize the project structure (for building the jar only). This project builds 3 artifacts, but I only care about the jar so far.
+* Work-around the fact that the velocity initialization code depends on a hard-coded name for the jar containing it
 
 Notes:
-
   ant -Dservlet.lib=/usr/share/java/servlet-api-2.5.jar
