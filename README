@@ -1,0 +1,8 @@
+W3c CSS validator taken from http://jigsaw.w3.org/css-validator/ as of 2011-02-08
+
+* mavenised project
+* imported into git
+
+Notes:
+
+  ant -Dservlet.lib=/usr/share/java/servlet-api-2.5.jar
