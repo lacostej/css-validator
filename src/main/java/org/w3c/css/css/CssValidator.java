@@ -110,7 +110,8 @@ public class CssValidator {
 	    System.out.println("URL");
 	    System.out.println("\tURL can either represent a distant " +
 		    "web resource (http://) or a local file (file:/)");
-	    System.exit(1);
+	    // System.exit(1);
+      return;
 	}
 	
 	// CSS version to use
