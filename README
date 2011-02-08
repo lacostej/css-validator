@@ -5,6 +5,7 @@ DONE:
 * Get project to build properly into ant (fixed URLs for relocated dependencies)
 * Mavenize the project structure (for building the jar only). This project builds 3 artifacts, but I only care about the jar so far.
 * Work-around the fact that the velocity initialization code depends on a hard-coded name for the jar containing it
+* Don't call System.exit if the parameters are invalid
 
 Notes:
   ant -Dservlet.lib=/usr/share/java/servlet-api-2.5.jar
