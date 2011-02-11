@@ -111,7 +111,7 @@ public class CssValidator {
 	    System.out.println("\tURL can either represent a distant " +
 		    "web resource (http://) or a local file (file:/)");
 	    // System.exit(1);
-      return;
+      throw new IllegalArgumentException(e);
 	}
 	
 	// CSS version to use
