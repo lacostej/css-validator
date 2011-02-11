@@ -81,32 +81,36 @@ public class StyleSheetGenerator extends StyleReport {
             System.err.println("  " + e.toString());
         }
 
+        String knownTemplate = "/org/w3c/css/css/text.properties";
         try {
             Velocity.setProperty(Velocity.RESOURCE_LOADER, "file");
-            Velocity.addProperty(Velocity.RESOURCE_LOADER, "jar");
-            Velocity.setProperty("jar." + Velocity.RESOURCE_LOADER + ".class",
-	       "org.apache.velocity.runtime.resource.loader.JarResourceLoader");
-            URL path = StyleSheetGenerator.class.getResource("/");
+            URL path = StyleSheetGenerator.class.getResource(knownTemplate);
             if(path != null) {
-               Velocity.addProperty("file." + Velocity.RESOURCE_LOADER +
-				         ".path", path.getFile());
-               Velocity.setProperty( "jar." + Velocity.RESOURCE_LOADER+".path",
-				          "jar:" + path + "css-validator.jar");                
+               if (path.toString().contains(".jar!")) { // jar located first
+                   String path2 = path.getFile().toString().substring(0, path.getFile().toString().lastIndexOf("!"));
+                   Velocity.addProperty("file." + Velocity.RESOURCE_LOADER +
+		          		         ".path", path2);
+                   Velocity.addProperty(Velocity.RESOURCE_LOADER, "jar");
+                   Velocity.setProperty("jar." + Velocity.RESOURCE_LOADER + ".class",
+	       "org.apache.velocity.runtime.resource.loader.JarResourceLoader");
+                   Velocity.setProperty( "jar." + Velocity.RESOURCE_LOADER+".path",
+				              "jar:" + path2);
+               } else {
+                   String path2 = path.getFile().toString().substring(0, path.getFile().toString().length() - knownTemplate.length() + 1);
+                   Velocity.addProperty("file." + Velocity.RESOURCE_LOADER +
+		          		         ".path", path2);
+               }                 
             }
-            path = StyleSheetGenerator.class.getResource("/org/w3c/css/css/text.properties");
-            if (path != null && path.toString().endsWith("jar!/org/w3c/css/css/text.properties")) { // css-validator packaged as a jar
-                String path2 = path.getFile().toString().substring(0, path.getFile().toString().lastIndexOf("!"));
-                   
-                Velocity.addProperty("file." + Velocity.RESOURCE_LOADER +
-				         ".path", path2);
-                Velocity.setProperty( "jar." + Velocity.RESOURCE_LOADER+".path",
-				          "jar:" + path2);
+            
+            if (! Velocity.templateExists(knownTemplate)) {
+                throw new IllegalStateException("Didn't find " + knownTemplate);
             }
             
             Velocity.init();
         } catch(Exception e) {
             System.err.println("Failed to initialize Velocity. "+
 			       "Validator might not work as expected.");
+            e.printStackTrace(System.err);
         }
     }
 	
